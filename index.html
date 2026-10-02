@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>定投富足悠扬人生</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- 顶部导航 -->
+    <nav class="navbar">
+      <div class="nav-title">🎹 定投富足悠扬人生</div>
+    </nav>
+
+    <!-- 页面容器 -->
+    <div class="page-container">
+
+      <!-- 首页 -->
+      <div id="page-home" class="page active">
+
+        <!-- 英雄区域：愿景 + 用户核心数据 -->
+        <div class="hero-section">
+          <div class="hero-title">
+            <span class="hero-icon">🎹</span>
+            <span>定投富足悠扬人生</span>
+          </div>
+          <div class="hero-vision">
+            用时间换取技能 · 用坚持积累财富
+          </div>
+
+          <!-- 用户核心数据卡片 -->
+          <div class="hero-stats">
+            <div class="hero-stat primary">
+              <div class="hero-stat-value" id="total-amount">0</div>
+              <div class="hero-stat-label">定投元</div>
+            </div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat">
+              <div class="hero-stat-value" id="continuous-days">0</div>
+              <div class="hero-stat-label">连续天数</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 今日打卡区域 -->
+        <div class="section-title">
+          <span class="section-title-icon">📋</span>
+          <span>今日打卡</span>
+        </div>
+
+        <div class="check-cards">
+          <div class="check-card" id="check-practice" onclick="switchTabAndGo('practice')">
+            <div class="check-card-icon">🎹</div>
+            <div class="check-card-title">练琴</div>
+            <div class="check-card-status" id="practice-status">待打卡</div>
+          </div>
+          <div class="check-card" id="check-sport" onclick="switchTabAndGo('sport')">
+            <div class="check-card-icon">🏃</div>
+            <div class="check-card-title">运动</div>
+            <div class="check-card-status" id="sport-status">待打卡</div>
+          </div>
+          <div class="check-card" id="check-read" onclick="switchTabAndGo('read')">
+            <div class="check-card-icon">📖</div>
+            <div class="check-card-title">阅读</div>
+            <div class="check-card-status" id="read-status">待打卡</div>
+          </div>
+        </div>
+
+        <!-- 账户预览 -->
+        <div class="account-card" onclick="showPage('account')">
+          <div class="account-card-left">
+            <div class="account-card-icon">💰</div>
+            <div class="account-card-info">
+              <div class="account-card-title">我的定投账户</div>
+              <div class="account-card-value" id="account-preview">0 元</div>
+            </div>
+          </div>
+          <div class="account-card-arrow">›</div>
+        </div>
+
+        <!-- 产品亮点 -->
+        <div class="features-section">
+          <div class="feature-item">
+            <div class="feature-icon">📈</div>
+            <div class="feature-text">模拟股市</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🏆</div>
+            <div class="feature-text">排行榜</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">💡</div>
+            <div class="feature-text">名言激励</div>
+          </div>
+        </div>
+
+        <div class="quote" id="home-quote">
+          <div class="quote-text"></div>
+          <div class="quote-author"></div>
+        </div>
+      </div>
+
+      <!-- 打卡页 -->
+      <div id="page-clockin" class="page">
+        <div class="tabs">
+          <div class="tab active" data-tab="practice" onclick="switchTab('practice')">
+            <span class="tab-icon">🎹</span>
+            <span class="tab-text">练琴</span>
+          </div>
+          <div class="tab" data-tab="sport" onclick="switchTab('sport')">
+            <span class="tab-icon">🏃</span>
+            <span class="tab-text">运动</span>
+          </div>
+          <div class="tab" data-tab="read" onclick="switchTab('read')">
+            <span class="tab-icon">📖</span>
+            <span class="tab-text">阅读</span>
+          </div>
+        </div>
+
+        <div class="card clockin-form">
+          <div class="form-item" id="duration-section">
+            <div class="form-label">练习时长</div>
+            <div class="duration-picker">
+              <input type="range" id="duration" min="15" max="180" step="15" value="60" oninput="updateDuration()">
+              <div class="duration-display"><span id="duration-value">60</span> 分钟</div>
+            </div>
+            <div class="duration-hint">
+              <span class="hint-item">🎯 练30分钟 = 10元</span>
+              <span class="hint-item">👍 再多练30分钟 = 再+5元</span>
+              <span class="hint-item">💪 练90分钟 = 再+5元（累计20元）</span>
+              <span class="hint-item">🌟 练120分钟 = 再+5元（累计25元）</span>
+            </div>
+          </div>
+
+          <div class="form-item">
+            <div class="form-label" id="content-label">练习内容</div>
+            <textarea class="input content-input" id="content-input" placeholder="记录一下今天学了什么（选填）" maxlength="200"></textarea>
+          </div>
+
+          <div class="estimated">
+            <div class="estimated-label">预计获得</div>
+            <div class="estimated-value"><span id="estimated-score">10</span> 元</div>
+          </div>
+
+          <button class="btn" id="submit-btn" onclick="submitClockIn()">🎉 打卡</button>
+        </div>
+
+        <div class="card rule-card">
+          <div class="rule-title">📋 积分规则</div>
+
+          <div class="rule-section">
+            <div class="rule-section-title">基础奖励</div>
+            <div class="rule-item">🎹 练琴：10元 + 时长奖励</div>
+            <div class="rule-item">🏃 运动：10元</div>
+            <div class="rule-item">📖 阅读：10元</div>
+          </div>
+
+          <div class="rule-section">
+            <div class="rule-section-title">练琴时长奖励</div>
+            <div class="rule-item">🎯 练30分钟 = 10元</div>
+            <div class="rule-item">👍 每多练30分钟，再加5元</div>
+            <div class="rule-item">💪 练120分钟 = 25元</div>
+          </div>
+
+          <div class="rule-section">
+            <div class="rule-section-title">连续打卡奖励</div>
+            <div class="rule-milestones">
+              <div class="rule-milestone">🏆3天 +3元</div>
+              <div class="rule-milestone">🏆7天 +5元</div>
+              <div class="rule-milestone">🏆14天 +8元</div>
+              <div class="rule-milestone">🏆21天 +10元</div>
+              <div class="rule-milestone">🏆30天 +15元</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card clockin-record">
+          <div class="title">今日打卡</div>
+          <div class="record-items">
+            <div class="record-item" id="record-practice">
+              <span>🎹 练琴</span>
+              <span class="record-status" id="record-practice-status">○ 未打卡</span>
+            </div>
+            <div class="record-item" id="record-sport">
+              <span>🏃 运动</span>
+              <span class="record-status" id="record-sport-status">○ 未打卡</span>
+            </div>
+            <div class="record-item" id="record-read">
+              <span>📖 阅读</span>
+              <span class="record-status" id="record-read-status">○ 未打卡</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="quote" id="clockin-quote">
+          <div class="quote-text"></div>
+          <div class="quote-author"></div>
+        </div>
+
+        <button class="btn-back" onclick="showPage('home')">← 返回首页</button>
+      </div>
+
+      <!-- 账户页 -->
+      <div id="page-account" class="page">
+        <div class="card asset-card">
+          <div class="asset-header">
+            <span class="asset-title">我的定投账户</span>
+          </div>
+          <div class="asset-main">
+            <div class="asset-value" id="asset-value">0</div>
+            <div class="asset-unit">元</div>
+          </div>
+          <div class="asset-profit">
+            <span class="profit-label">累计收益</span>
+            <span class="profit-value" id="profit-value">+0元 (+0%)</span>
+          </div>
+        </div>
+
+        <div class="card holding-card">
+          <div class="title">持仓分布</div>
+
+          <div class="holding-item">
+            <div class="holding-header">
+              <span class="holding-name">📈 沪深300 <span id="hs300-percent">60%</span></span>
+              <span class="holding-value" id="hs300-value">0 元</span>
+            </div>
+            <div class="holding-price">
+              <span class="price-value" id="hs300-price">--</span>
+              <span class="holding-change" id="hs300-change">--</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill hs300" style="width: 60%"></div>
+            </div>
+            <div class="mini-chart" id="hs300-chart">
+              <!-- 图表 -->
+            </div>
+          </div>
+
+          <div class="holding-item">
+            <div class="holding-header">
+              <span class="holding-name">📈 纳斯达克 <span id="nasdaq-percent">40%</span></span>
+              <span class="holding-value" id="nasdaq-value">0 元</span>
+            </div>
+            <div class="holding-price">
+              <span class="price-value" id="nasdaq-price">--</span>
+              <span class="holding-change" id="nasdaq-change">--</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill nasdaq" style="width: 40%"></div>
+            </div>
+            <div class="mini-chart" id="nasdaq-chart">
+              <!-- 图表 -->
+            </div>
+          </div>
+        </div>
+
+        <div class="card vision-card">
+          <div class="vision-title">💡 产品愿景</div>
+          <div class="vision-text">
+            用时间换取技能、能力和财富认知<br><br>
+            让每一分努力都不被辜负<br>
+            时间是最好的投资
+          </div>
+        </div>
+
+        <div class="card info-card">
+          <div class="info-item">📌 资金自动投入，无需手动操作</div>
+          <div class="info-item">📌 60% 沪深300 + 40% 纳斯达克</div>
+          <div class="info-item">📌 长期持有，时间是最好的朋友</div>
+        </div>
+
+        <div class="quote" id="account-quote">
+          <div class="quote-text"></div>
+          <div class="quote-author"></div>
+        </div>
+
+        <button class="btn-back" onclick="showPage('home')">← 返回首页</button>
+      </div>
+
+      <!-- 排行榜 -->
+      <div id="page-rank" class="page">
+        <div class="card">
+          <div class="title text-center">🏆 打卡排行榜</div>
+          <div class="rank-list" id="rank-list">
+            <!-- 动态生成 -->
+          </div>
+          <div class="rank-pagination" id="rank-pagination">
+            <!-- 分页按钮 -->
+          </div>
+          <div class="rank-hint">全部可见 · 数据每日更新</div>
+        </div>
+
+        <div class="quote" id="rank-quote">
+          <div class="quote-text"></div>
+          <div class="quote-author"></div>
+        </div>
+
+        <button class="btn-back" onclick="showPage('home')">← 返回首页</button>
+      </div>
+
+      <!-- 我的 -->
+      <div id="page-mine" class="page">
+        <div class="card user-card">
+          <div class="user-header" onclick="showAccountSelectModal()">
+            <div class="avatar large">🎹</div>
+            <div class="user-name" id="mine-user-name">新用户</div>
+            <div class="user-switch-hint">点击切换账号</div>
+          </div>
+          <div class="user-stats-grid">
+            <div class="stat-box">
+              <div class="stat-value" id="mine-total">0</div>
+              <div class="stat-label">累计定投元</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value" id="mine-days">0</div>
+              <div class="stat-label">连续天数</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card stats-card">
+          <div class="title">打卡统计</div>
+          <div class="stats-list">
+            <div class="stats-item">
+              <span class="stats-icon">🎹</span>
+              <span class="stats-text">练琴</span>
+              <span class="stats-value" id="total-practice">0 次</span>
+            </div>
+            <div class="stats-item">
+              <span class="stats-icon">🏃</span>
+              <span class="stats-text">运动</span>
+              <span class="stats-value" id="total-sport">0 次</span>
+            </div>
+            <div class="stats-item">
+              <span class="stats-icon">📖</span>
+              <span class="stats-text">阅读</span>
+              <span class="stats-value" id="total-read">0 次</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card actions-card">
+          <div class="action-item" onclick="showAccountSelectModal()">
+            <span class="action-icon">🔄</span>
+            <span class="action-text">切换账号</span>
+            <span class="action-arrow">→</span>
+          </div>
+          <div class="action-item" onclick="editNickname()">
+            <span class="action-icon">✏️</span>
+            <span class="action-text">修改昵称</span>
+            <span class="action-arrow">→</span>
+          </div>
+          <div class="action-item parent-only" onclick="showParentPanel()">
+            <span class="action-icon">👨‍👩‍👧</span>
+            <span class="action-text">家庭管理</span>
+            <span class="action-arrow">→</span>
+          </div>
+          <div class="action-item parent-only" onclick="showAddChildModal()">
+            <span class="action-icon">➕</span>
+            <span class="action-text">添加孩子</span>
+            <span class="action-arrow">→</span>
+          </div>
+        </div>
+
+        <div class="quote" id="mine-quote">
+          <div class="quote-text"></div>
+          <div class="quote-author"></div>
+        </div>
+
+        <button class="btn-back" onclick="showPage('home')">← 返回首页</button>
+      </div>
+
+    </div>
+
+    <!-- 底部导航 -->
+    <nav class="tabbar">
+      <div class="tab-item active" data-page="home" onclick="showPage('home')">
+        <span class="tab-icon">🏠</span>
+        <span class="tab-label">首页</span>
+      </div>
+      <div class="tab-item" data-page="clockin" onclick="showPage('clockin')">
+        <span class="tab-icon">✓</span>
+        <span class="tab-label">打卡</span>
+      </div>
+      <div class="tab-item" data-page="account" onclick="showPage('account')">
+        <span class="tab-icon">💰</span>
+        <span class="tab-label">账户</span>
+      </div>
+      <div class="tab-item" data-page="rank" onclick="showPage('rank')">
+        <span class="tab-icon">🏆</span>
+        <span class="tab-label">排行</span>
+      </div>
+      <div class="tab-item" data-page="mine" onclick="showPage('mine')">
+        <span class="tab-icon">👤</span>
+        <span class="tab-label">我的</span>
+      </div>
+    </nav>
+  </div>
+
+  <!-- 家长设置弹窗（首次使用） -->
+  <div class="modal" id="parent-setup-modal">
+    <div class="modal-content">
+      <div class="modal-title">👨‍👩‍👧 创建家长账号</div>
+      <p style="font-size: 12px; color: #999; margin-bottom: 15px;">家长账号可管理所有孩子的账号</p>
+      <input type="text" class="input" id="parent-nickname-input" placeholder="请输入您的昵称" maxlength="20">
+      <div class="modal-buttons">
+        <button class="btn" onclick="createParentAccount()">创建账号</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 账号选择弹窗 -->
+  <div class="modal" id="account-select-modal">
+    <div class="modal-content modal-large">
+      <div class="modal-title">👋 选择账号</div>
+      <div class="account-select-list" id="account-select-list">
+        <!-- 动态生成 -->
+      </div>
+      <button class="btn-secondary" onclick="closeAccountSelectModal()" style="margin-top: 15px;">取消</button>
+    </div>
+  </div>
+
+  <!-- 添加孩子账号弹窗 -->
+  <div class="modal" id="add-child-modal">
+    <div class="modal-content">
+      <div class="modal-title">➕ 添加孩子账号</div>
+      <input type="text" class="input" id="add-child-nickname-input" placeholder="请输入孩子昵称" maxlength="20">
+      <div class="modal-buttons">
+        <button class="btn-secondary" onclick="closeAddChildModal()">取消</button>
+        <button class="btn" onclick="addChildAccount()">添加</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 家长管理面板弹窗 -->
+  <div class="modal" id="parent-panel-modal">
+    <div class="modal-content modal-large">
+      <div class="modal-title">👨‍👩‍👧 家庭管理</div>
+      <p style="font-size: 12px; color: #999; margin-bottom: 15px;">管理所有孩子的账号</p>
+      <div class="parent-user-list" id="parent-user-list">
+        <!-- 动态生成 -->
+      </div>
+      <div class="modal-buttons" style="margin-top: 15px;">
+        <button class="btn" onclick="closeParentPanel()">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 登录弹窗（修改昵称） -->
+  <div class="modal" id="login-modal">
+    <div class="modal-content">
+      <div class="modal-title">✏️ 修改昵称</div>
+      <input type="text" class="input" id="nickname-input" placeholder="请输入昵称" maxlength="20">
+      <div class="modal-buttons">
+        <button class="btn-secondary" onclick="closeLoginModal()">取消</button>
+        <button class="btn" onclick="saveNickname()">确定</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
