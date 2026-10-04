@@ -914,11 +914,11 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .holding-change.up {
-  color: #4CAF50;
+  color: #FF5252; /* 红涨 */
 }
 
 .holding-change.down {
-  color: #FF5252;
+  color: #4CAF50; /* 绿跌 */
 }
 
 /* 迷你图表 */
