@@ -15,8 +15,8 @@ const quotes = [
 
 // 投资比例配置
 const INVEST_CONFIG = {
-  nasdaq: 0.4,   // 纳斯达克 40%
-  csi300: 0.6    // 沪深300 60%
+  nasdaq: 0.6,   // 纳斯达克 60%
+  csi300: 0.4    // 沪深300 40%
 };
 
 // 获取沪深300历史数据（模拟K线）
@@ -120,7 +120,7 @@ async function updateMarketData() {
   return marketDataCache;
 }
 
-// 生成迷你图表SVG
+// 生成迷你图表SVG（中国市场：红涨绿跌）
 function generateMiniChartSVG(history, isUp) {
   if (!history || history.length < 2) return '';
 
@@ -137,7 +137,8 @@ function generateMiniChartSVG(history, isUp) {
     return `${x},${y}`;
   }).join(' ');
 
-  const color = isUp ? '#4CAF50' : '#FF5252';
+  // 中国市场：涨=红色，跌=绿色
+  const color = isUp ? '#FF5252' : '#4CAF50';
   const gradientId = `grad_${Date.now()}`;
 
   return `

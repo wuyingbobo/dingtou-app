@@ -825,12 +825,14 @@ input[type="range"]::-webkit-slider-thumb {
   font-weight: 600;
 }
 
-.profit-value.up {
-  color: #4CAF50;
+.profit-value.up,
+.holding-change.up {
+  color: #FF5252; /* 中国市场：红涨 */
 }
 
-.profit-value.down {
-  color: #FF5252;
+.profit-value.down,
+.holding-change.down {
+  color: #4CAF50; /* 中国市场：绿跌 */
 }
 
 /* 持仓 */
@@ -899,11 +901,11 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .progress-fill.nasdaq {
-  background: linear-gradient(90deg, #00C853, #69F0AE);
+  background: linear-gradient(90deg, #FF5252, #FF8A80); /* 纳斯达克 红色系 */
 }
 
 .progress-fill.hs300 {
-  background: linear-gradient(90deg, #2979FF, #82B1FF);
+  background: linear-gradient(90deg, #4CAF50, #81C784); /* 沪深300 绿色系 */
 }
 
 .holding-change {
