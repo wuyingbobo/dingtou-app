@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>定投富足悠扬人生</title>
-  <link rel="stylesheet" href="styles.css?v=7">
+  <link rel="stylesheet" href="styles.css?v=8">
 </head>
 <body>
   <div id="app">
@@ -125,25 +125,62 @@
         </div>
 
         <div class="clockin-form">
-          <div class="form-item" id="duration-section">
-            <div class="form-label">练习时长</div>
-            <div class="duration-picker">
-              <input type="range" id="duration" min="15" max="180" step="15" value="60" oninput="updateDuration()">
-              <div class="duration-timeline">
-                <span>15'</span>
-                <span>45'</span>
-                <span>75'</span>
-                <span>105'</span>
-                <span>135'</span>
-                <span>180'</span>
+          <!-- 练琴表单 -->
+          <div id="form-practice" class="tab-form">
+            <div class="form-rules">
+              <div class="rules-header">📋 积分规则</div>
+              <div class="rules-list">
+                <div class="rules-item"><span>基础</span><span>30分钟 = 10元</span></div>
+                <div class="rules-item"><span>每多30分钟</span><span>+5元</span></div>
+                <div class="rules-item"><span>90分钟封顶</span><span>20元</span></div>
               </div>
-              <div class="duration-display"><span id="duration-value">60</span> 分钟</div>
+            </div>
+            <div class="form-item">
+              <div class="form-label">练习时长</div>
+              <div class="duration-picker">
+                <input type="range" id="duration" min="30" max="90" step="30" value="30" oninput="updateDuration()">
+                <div class="duration-timeline">
+                  <span>30'</span>
+                  <span>60'</span>
+                  <span>90'</span>
+                </div>
+                <div class="duration-display"><span id="duration-value">30</span> 分钟</div>
+              </div>
+            </div>
+            <div class="form-item">
+              <div class="form-label" id="content-label">练习内容</div>
+              <textarea class="input content-input" id="content-input" placeholder="记录一下今天学了什么（选填）" maxlength="200"></textarea>
             </div>
           </div>
 
-          <div class="form-item">
-            <div class="form-label" id="content-label">练习内容</div>
-            <textarea class="input content-input" id="content-input" placeholder="记录一下今天学了什么（选填）" maxlength="200"></textarea>
+          <!-- 运动表单 -->
+          <div id="form-sport" class="tab-form" style="display:none;">
+            <div class="form-rules">
+              <div class="rules-header">📋 积分规则</div>
+              <div class="rules-list">
+                <div class="rules-item"><span>每次打卡</span><span>10元</span></div>
+                <div class="rules-item"><span>无需计时</span><span>完成即可</span></div>
+              </div>
+            </div>
+            <div class="form-item">
+              <div class="form-label">运动记录</div>
+              <textarea class="input content-input" id="sport-content-input" placeholder="记录今天的运动内容（选填）" maxlength="200"></textarea>
+            </div>
+          </div>
+
+          <!-- 阅读表单 -->
+          <div id="form-read" class="tab-form" style="display:none;">
+            <div class="form-rules">
+              <div class="rules-header">📋 积分规则</div>
+              <div class="rules-list">
+                <div class="rules-item"><span>每次打卡</span><span>10元</span></div>
+                <div class="rules-item"><span>无需计时</span><span>读完即可</span></div>
+              </div>
+            </div>
+            <div class="form-item">
+              <div class="form-label">阅读记录</div>
+              <textarea class="input content-input" id="read-content-input" placeholder="记录今天读的书或内容（选填）" maxlength="200"></textarea>
+            </div>
           </div>
 
           <button class="btn" id="submit-btn" onclick="submitClockIn()">🎉 打卡</button>
@@ -454,6 +491,6 @@
     </div>
   </div>
 
-  <script src="app.js?v=5"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>

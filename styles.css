@@ -418,6 +418,41 @@ input[type="range"]::-webkit-slider-thumb {
   outline: none;
 }
 
+/* 每个标签页的表单 */
+.tab-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 表单内的积分规则 */
+.form-rules {
+  background: #FFF8E1;
+  border-radius: 8px;
+  padding: 10px;
+  border-left: 3px solid #E8B86D;
+}
+.rules-header {
+  font-size: 12px;
+  font-weight: 600;
+  color: #E8B86D;
+  margin-bottom: 6px;
+}
+.rules-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.rules-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #666;
+}
+.rules-item span:first-child {
+  color: #999;
+}
+
 .estimated {
   display: flex;
   justify-content: space-between;
@@ -866,15 +901,18 @@ input[type="range"]::-webkit-slider-thumb {
     border-radius: 14px;
     padding: 20px;
   }
+  #page-clockin .form-rules {
+    padding: 12px;
+  }
+  #page-clockin .rules-header { font-size: 14px; }
+  #page-clockin .rules-item { font-size: 13px; }
   #page-clockin .form-label { font-size: 14px; }
   #page-clockin .duration-display { font-size: 28px; }
   #page-clockin .content-input { height: 60px; }
   #page-clockin .btn { padding: 12px; font-size: 15px; }
 
   #page-clockin .btn-back {
-    grid-column: 1 / -1;
-    padding: 8px;
-    font-size: 12px;
+    display: none;
   }
 
   /* 桌面端账户页 */

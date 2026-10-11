@@ -433,23 +433,32 @@ function switchTab(tab) {
     }
   });
 
-  // 显示/隐藏时长选择
-  const durationSection = document.getElementById('duration-section');
-  if (durationSection) {
-    durationSection.style.display = tab === 'practice' ? 'block' : 'none';
+  // 显示对应的表单
+  document.querySelectorAll('.tab-form').forEach(f => {
+    f.style.display = 'none';
+  });
+  const targetForm = document.getElementById(`form-${tab}`);
+  if (targetForm) {
+    targetForm.style.display = 'flex';
   }
 
-  // 更新内容标签
-  const contentLabel = document.getElementById('content-label');
-  if (contentLabel) {
-    const labels = { practice: '练习内容', sport: '运动内容', read: '阅读内容' };
-    contentLabel.textContent = labels[tab];
+  // 更新时长滑块范围
+  const durationInput = document.getElementById('duration');
+  if (durationInput) {
+    if (tab === 'practice') {
+      durationInput.min = 30;
+      durationInput.max = 90;
+      durationInput.step = 30;
+      durationInput.value = 30;
+    }
+    updateDuration();
   }
 
   // 更新按钮颜色
   const submitBtn = document.getElementById('submit-btn');
   if (submitBtn) {
-    submitBtn.className = `btn ${tab === 'practice' ? '' : tab === 'sport' ? 'btn-sport' : 'btn-read'}`;
+    const colors = { practice: '', sport: 'btn-sport', read: 'btn-read' };
+    submitBtn.className = `btn ${colors[tab] || ''}`;
   }
 
   // 更新预计积分
