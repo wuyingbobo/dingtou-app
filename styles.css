@@ -691,6 +691,8 @@ input[type="range"]::-webkit-slider-thumb {
 .action-icon { font-size: 14px; margin-right: 8px; }
 .action-text { flex: 1; font-size: 12px; }
 .action-arrow { font-size: 11px; color: #CCC; }
+.action-item.danger .action-text { color: #F44336; }
+.action-item.danger .action-icon { color: #F44336; }
 
 .parent-only { display: none; }
 .is-parent .parent-only { display: flex; }

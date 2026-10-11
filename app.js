@@ -883,6 +883,15 @@ function updateQuote(pageName) {
   }
 }
 
+// 清除所有数据重新开始
+function clearAllData() {
+  if (!confirm('确定要清除所有数据吗？这将删除所有账号和打卡记录，无法恢复！')) {
+    return;
+  }
+  localStorage.clear();
+  location.reload();
+}
+
 // 保存昵称（用于修改当前用户昵称）
 function saveNickname() {
   const nickname = document.getElementById('nickname-input').value.trim();
