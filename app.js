@@ -19,25 +19,40 @@ const INVEST_CONFIG = {
   csi300: 0.4    // 沪深300 40%
 };
 
-// 获取沪深300历史数据（模拟K线）
+// 根据日期生成伪随机数（每天固定）
+function seededRandom(seed) {
+  const x = Math.sin(seed) * 10000;
+  return x - Math.floor(x);
+}
+
+// 获取沪深300历史数据（模拟K线，每天固定）
 function getCSI300History() {
   const base = 3800;
   const data = [];
   let price = base;
+  // 用今天日期作为种子，确保每天数据相同
+  const today = new Date().toISOString().split('T')[0];
+  let seed = today.split('-').join('') * 1;
   for (let i = 0; i < 30; i++) {
-    price = price * (1 + (Math.random() - 0.48) * 0.02);
+    seed = seed * 9301 + 49297; // 线性同余生成器
+    const rand = (seed % 233280) / 233280;
+    price = price * (1 + (rand - 0.48) * 0.02);
     data.push(price.toFixed(2));
   }
   return data;
 }
 
-// 获取纳斯达克历史数据（模拟K线）
+// 获取纳斯达克历史数据（模拟K线，每天固定）
 function getNasdaqHistory() {
   const base = 17500;
   const data = [];
   let price = base;
+  const today = new Date().toISOString().split('T')[0];
+  let seed = today.split('-').join('') * 1 + 1000; // 不同种子
   for (let i = 0; i < 30; i++) {
-    price = price * (1 + (Math.random() - 0.48) * 0.015);
+    seed = seed * 9301 + 49297;
+    const rand = (seed % 233280) / 233280;
+    price = price * (1 + (rand - 0.48) * 0.015);
     data.push(price.toFixed(2));
   }
   return data;
