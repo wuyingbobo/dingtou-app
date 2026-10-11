@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>定投富足悠扬人生</title>
-  <link rel="stylesheet" href="styles.css?v=6">
+  <link rel="stylesheet" href="styles.css?v=7">
 </head>
 <body>
   <div id="app">
@@ -139,7 +139,6 @@
               </div>
               <div class="duration-display"><span id="duration-value">60</span> 分钟</div>
             </div>
-            <div class="duration-link" onclick="showPage('rules')">📋 查看积分规则 →</div>
           </div>
 
           <div class="form-item">
@@ -147,33 +146,8 @@
             <textarea class="input content-input" id="content-input" placeholder="记录一下今天学了什么（选填）" maxlength="200"></textarea>
           </div>
 
-          <div class="estimated">
-            <div class="estimated-label">预计获得</div>
-            <div class="estimated-value"><span id="estimated-score">20</span> 元</div>
-          </div>
-
           <button class="btn" id="submit-btn" onclick="submitClockIn()">🎉 打卡</button>
         </div>
-
-        <div class="clockin-record">
-          <div class="title">今日打卡</div>
-          <div class="record-items">
-            <div class="record-item" id="record-practice">
-              <span>🎹 练琴</span>
-              <span class="record-status" id="record-practice-status">○ 未打卡</span>
-            </div>
-            <div class="record-item" id="record-sport">
-              <span>🏃 运动</span>
-              <span class="record-status" id="record-sport-status">○ 未打卡</span>
-            </div>
-            <div class="record-item" id="record-read">
-              <span>📖 阅读</span>
-              <span class="record-status" id="record-read-status">○ 未打卡</span>
-            </div>
-          </div>
-        </div>
-
-        <button class="btn-back" onclick="showPage('home')">← 返回首页</button>
       </div>
 
       <!-- 账户页 -->

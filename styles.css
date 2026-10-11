@@ -292,7 +292,11 @@ body {
 .rule-row span:last-child { color: #E8B86D; }
 
 /* ==================== 打卡页 ==================== */
-#page-clockin { gap: 8px; }
+/* 打卡页不滚动 */
+#page-clockin {
+  gap: 8px;
+  overflow: hidden;
+}
 
 .tabs {
   flex-shrink: 0;
@@ -321,7 +325,7 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   background: #FFF;
   border-radius: 10px;
   padding: 12px;
@@ -838,15 +842,17 @@ input[type="range"]::-webkit-slider-thumb {
 
   /* 桌面端打卡页 */
   #page-clockin {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto 1fr auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: 15px;
-    align-items: start;
+    padding: 20px;
   }
 
   #page-clockin .tabs {
-    grid-column: 1 / -1;
+    width: 100%;
+    max-width: 400px;
     border-radius: 12px;
     padding: 6px;
   }
@@ -855,25 +861,15 @@ input[type="range"]::-webkit-slider-thumb {
   #page-clockin .tab-text { font-size: 13px; }
 
   #page-clockin .clockin-form {
+    width: 100%;
+    max-width: 400px;
     border-radius: 14px;
     padding: 20px;
   }
   #page-clockin .form-label { font-size: 14px; }
   #page-clockin .duration-display { font-size: 28px; }
-  #page-clockin .hint-item { font-size: 10px; padding: 3px 6px; }
   #page-clockin .content-input { height: 60px; }
-  #page-clockin .estimated { padding: 10px 12px; }
-  #page-clockin .estimated-label { font-size: 12px; }
-  #page-clockin .estimated-value { font-size: 22px; }
-  #page-clockin .btn { padding: 10px; font-size: 14px; }
-
-  #page-clockin .clockin-record {
-    border-radius: 14px;
-    padding: 15px;
-  }
-  #page-clockin .clockin-record .title { font-size: 13px; }
-  #page-clockin .record-item { font-size: 12px; }
-  #page-clockin .record-status { font-size: 11px; }
+  #page-clockin .btn { padding: 12px; font-size: 15px; }
 
   #page-clockin .btn-back {
     grid-column: 1 / -1;
