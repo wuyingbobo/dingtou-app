@@ -458,8 +458,12 @@ function switchTab(tab) {
 
 // 更新时长显示
 function updateDuration() {
-  const duration = document.getElementById('duration').value;
+  const duration = parseInt(document.getElementById('duration').value);
   document.getElementById('duration-value').textContent = duration;
+  // 更新滑块进度条
+  const slider = document.getElementById('duration');
+  const progress = ((duration - 15) / (180 - 15)) * 100;
+  slider.style.setProperty('--progress', progress + '%');
   updateEstimatedScore();
 }
 

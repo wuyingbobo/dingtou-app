@@ -332,20 +332,45 @@ body {
 
 .form-label { font-size: 12px; font-weight: 500; margin-bottom: 4px; }
 
+.duration-picker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 input[type="range"] {
   width: 100%;
-  height: 5px;
-  background: #F0F0F0;
-  border-radius: 3px;
+  height: 30px;
+  background: transparent;
   -webkit-appearance: none;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 8px;
+  background: linear-gradient(to right, #E8B86D 0%, #E8B86D var(--progress, 25%), #F0F0F0 var(--progress, 25%));
+  border-radius: 4px;
 }
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   background: #E8B86D;
   border-radius: 50%;
   cursor: pointer;
+  margin-top: -8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* 时间轴刻度 */
+.duration-timeline {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: -4px;
+  padding: 0 2px;
+}
+.duration-timeline span {
+  font-size: 8px;
+  color: #999;
 }
 
 .duration-display {
@@ -368,6 +393,13 @@ input[type="range"]::-webkit-slider-thumb {
   background: #F5F5F5;
   padding: 2px 5px;
   border-radius: 3px;
+}
+.duration-link {
+  text-align: center;
+  font-size: 11px;
+  color: #E8B86D;
+  padding: 6px;
+  cursor: pointer;
 }
 
 .content-input {

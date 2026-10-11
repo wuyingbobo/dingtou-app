@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>定投富足悠扬人生</title>
-  <link rel="stylesheet" href="styles.css?v=5">
+  <link rel="stylesheet" href="styles.css?v=6">
 </head>
 <body>
   <div id="app">
@@ -129,14 +129,17 @@
             <div class="form-label">练习时长</div>
             <div class="duration-picker">
               <input type="range" id="duration" min="15" max="180" step="15" value="60" oninput="updateDuration()">
+              <div class="duration-timeline">
+                <span>15'</span>
+                <span>45'</span>
+                <span>75'</span>
+                <span>105'</span>
+                <span>135'</span>
+                <span>180'</span>
+              </div>
               <div class="duration-display"><span id="duration-value">60</span> 分钟</div>
             </div>
-            <div class="duration-hint">
-              <span class="hint-item">🎯 练30分钟 = 10元</span>
-              <span class="hint-item">👍 再多练30分钟 = 再+5元</span>
-              <span class="hint-item">💪 练90分钟 = 再+5元（累计20元）</span>
-              <span class="hint-item">🌟 练120分钟 = 再+5元（累计25元）</span>
-            </div>
+            <div class="duration-link" onclick="showPage('rules')">📋 查看积分规则 →</div>
           </div>
 
           <div class="form-item">
@@ -477,6 +480,6 @@
     </div>
   </div>
 
-  <script src="app.js?v=4"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>
