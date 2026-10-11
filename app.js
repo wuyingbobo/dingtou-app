@@ -116,14 +116,50 @@ async function fetchNasdaqData() {
   };
 }
 
-// 获取沪深300数据
-function getCSI300Data() {
+// 从东方财富获取沪深300真实数据
+async function fetchCSI300Data() {
+  try {
+    const response = await fetch(
+      'https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=1.300300&fields1=f1,f2,f3,f4,f5,f6&fields2=f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61&klt=101&fqt=0&lmt=30',
+      { headers: { 'Accept': 'application/json' } }
+    );
+    const data = await response.json();
+    if (data.data && data.data.klines) {
+      const klines = data.data.klines;
+      const todayData = klines[klines.length - 1].split(',');
+      const prevData = klines[klines.length - 2].split(',');
+      const todayClose = parseFloat(todayData[2]);
+      const prevClose = parseFloat(prevData[2]);
+      const change = todayClose - prevClose;
+      const changePercent = (change / prevClose * 100).toFixed(2);
+
+      return {
+        price: todayClose.toFixed(2),
+        change: change.toFixed(2),
+        changePercent: changePercent,
+        history: klines.map(k => k.split(',')[2]),
+        prevClose: prevClose
+      };
+    }
+  } catch (error) {
+    console.log('获取沪深300数据失败');
+  }
+  return null;
+}
+
+// 获取沪深300数据（优先真实数据）
+async function getCSI300Data() {
+  const realData = await fetchCSI300Data();
+  if (realData) {
+    return realData;
+  }
   const history = getCSI300History();
   const today = parseFloat(history[history.length - 1]);
   const prev = parseFloat(history[history.length - 2]);
   return {
-    price: today,
-    change: (((today - prev) / prev) * 100).toFixed(2),
+    price: today.toFixed(2),
+    change: (today - prev).toFixed(2),
+    changePercent: (((today - prev) / prev * 100)).toFixed(2),
     history: history,
     prevClose: prev
   };
@@ -137,7 +173,7 @@ async function updateMarketData() {
   }
 
   marketDataCache.nasdaq = await fetchNasdaqData();
-  marketDataCache.csi300 = getCSI300Data();
+  marketDataCache.csi300 = await getCSI300Data();
   marketDataCache.lastUpdate = now;
 
   return marketDataCache;
@@ -670,15 +706,15 @@ async function updateAccountPage() {
     ? `↑ +${nasdaqChange.toFixed(2)}%`
     : `↓ ${nasdaqChange.toFixed(2)}%`;
   document.getElementById('nasdaq-change').className = `holding-change ${nasdaqChange >= 0 ? 'up' : 'down'}`;
-  document.getElementById('nasdaq-price').textContent = marketData.nasdaq.price ? marketData.nasdaq.price.toFixed(2) : '--';
+  document.getElementById('nasdaq-price').textContent = marketData.nasdaq.price ? parseFloat(marketData.nasdaq.price).toFixed(2) : '--';
 
   // 沪深300
-  const csiChange = parseFloat(marketData.csi300.change);
+  const csiChange = parseFloat(marketData.csi300.changePercent);
   document.getElementById('hs300-change').textContent = csiChange >= 0
     ? `↑ +${csiChange.toFixed(2)}%`
-    : `↓ ${csiChange.toFixed(2)}%`;
+    : `↓ ${Math.abs(csiChange).toFixed(2)}%`;
   document.getElementById('hs300-change').className = `holding-change ${csiChange >= 0 ? 'up' : 'down'}`;
-  document.getElementById('hs300-price').textContent = marketData.csi300.price ? marketData.csi300.price.toFixed(2) : '--';
+  document.getElementById('hs300-price').textContent = marketData.csi300.price || '--';
 
   // 生成迷你图表
   const nasdaqChart = generateMiniChartSVG(marketData.nasdaq.history, nasdaqChange >= 0);
