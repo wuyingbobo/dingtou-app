@@ -399,6 +399,13 @@ function showPage(pageName) {
   if (pageName === 'home') {
     updateHomePage();
   } else if (pageName === 'clockin') {
+
+// 积分规则折叠
+function toggleRules(el) {
+  el.classList.toggle('active');
+  const content = el.nextElementSibling;
+  content.classList.toggle('show');
+}
     updateClockinPage();
   } else if (pageName === 'account') {
     updateAccountPage();
