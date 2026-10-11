@@ -207,6 +207,19 @@ body {
 .feature-icon { font-size: 18px; }
 .feature-text { font-size: 10px; color: #666; }
 
+/* 首页愿景 */
+.home-vision {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #FFF9F0, #FFF5E6);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.vision-icon { font-size: 20px; }
+.vision-text { font-size: 11px; color: #666; line-height: 1.5; }
+
 .quote {
   flex-shrink: 0;
   background: linear-gradient(135deg, #FFF9F0, #FFF5E6);
@@ -216,6 +229,38 @@ body {
 }
 .quote-text { font-size: 10px; color: #666; font-style: italic; }
 .quote-author { font-size: 9px; color: #999; margin-top: 2px; }
+
+/* 我的页面积分规则 */
+.mine-rules {
+  flex-shrink: 0;
+  background: #FFF;
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+.rules-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+  text-align: center;
+}
+.rules-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.rule-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #666;
+  padding: 4px 0;
+  border-bottom: 1px solid #F5F5F5;
+}
+.rule-row:last-child { border-bottom: none; }
+.rule-row span:first-child { font-weight: 500; }
+.rule-row span:last-child { color: #E8B86D; }
 
 /* ==================== 打卡页 ==================== */
 #page-clockin { gap: 8px; }
@@ -658,7 +703,7 @@ input[type="range"]::-webkit-slider-thumb {
   #page-home {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto auto;
+    grid-template-rows: auto auto auto auto;
     gap: 15px;
     align-items: start;
   }
@@ -716,18 +761,25 @@ input[type="range"]::-webkit-slider-thumb {
   #page-home .feature-icon { font-size: 28px; }
   #page-home .feature-text { font-size: 14px; }
 
-  #page-home .quote {
-    padding: 15px 20px;
-    border-radius: 12px;
+  #page-home .home-vision {
+    border-radius: 14px;
+    padding: 15px 18px;
   }
-  #page-home .quote-text { font-size: 13px; }
-  #page-home .quote-author { font-size: 12px; }
+  #page-home .vision-icon { font-size: 24px; }
+  #page-home .vision-text { font-size: 13px; }
+
+  #page-home .quote {
+    padding: 12px 18px;
+    border-radius: 10px;
+  }
+  #page-home .quote-text { font-size: 12px; }
+  #page-home .quote-author { font-size: 11px; }
 
   /* 桌面端打卡页 */
   #page-clockin {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto 1fr auto auto;
+    grid-template-rows: auto 1fr auto;
     gap: 15px;
     align-items: start;
   }
@@ -746,35 +798,26 @@ input[type="range"]::-webkit-slider-thumb {
     padding: 20px;
   }
   #page-clockin .form-label { font-size: 14px; }
-  #page-clockin .duration-display { font-size: 32px; }
-  #page-clockin .hint-item { font-size: 11px; padding: 4px 8px; }
-  #page-clockin .content-input { height: 80px; }
-  #page-clockin .estimated { padding: 12px 15px; }
-  #page-clockin .estimated-label { font-size: 13px; }
-  #page-clockin .estimated-value { font-size: 24px; }
-  #page-clockin .btn { padding: 12px; font-size: 15px; }
-
-  #page-clockin .rule-card {
-    border-radius: 14px;
-    padding: 18px;
-  }
-  #page-clockin .rule-title { font-size: 15px; }
-  #page-clockin .rule-section-title { font-size: 13px; }
-  #page-clockin .rule-item { font-size: 12px; }
-  #page-clockin .rule-milestone { font-size: 11px; }
+  #page-clockin .duration-display { font-size: 28px; }
+  #page-clockin .hint-item { font-size: 10px; padding: 3px 6px; }
+  #page-clockin .content-input { height: 60px; }
+  #page-clockin .estimated { padding: 10px 12px; }
+  #page-clockin .estimated-label { font-size: 12px; }
+  #page-clockin .estimated-value { font-size: 22px; }
+  #page-clockin .btn { padding: 10px; font-size: 14px; }
 
   #page-clockin .clockin-record {
-    grid-column: 1 / -1;
     border-radius: 14px;
     padding: 15px;
   }
-  #page-clockin .clockin-record .title { font-size: 14px; }
-  #page-clockin .record-item { font-size: 13px; }
-  #page-clockin .record-status { font-size: 12px; }
+  #page-clockin .clockin-record .title { font-size: 13px; }
+  #page-clockin .record-item { font-size: 12px; }
+  #page-clockin .record-status { font-size: 11px; }
 
-  #page-clockin .quote {
+  #page-clockin .btn-back {
     grid-column: 1 / -1;
-    padding: 15px 20px;
+    padding: 8px;
+    font-size: 12px;
   }
 
   /* 桌面端账户页 */
@@ -786,103 +829,80 @@ input[type="range"]::-webkit-slider-thumb {
   }
 
   #page-account .asset-card {
-    padding: 25px;
-    border-radius: 16px;
+    padding: 20px;
+    border-radius: 14px;
   }
-  #page-account .asset-title { font-size: 14px; }
-  #page-account .asset-simulated { font-size: 11px; }
-  #page-account .asset-value { font-size: 48px; }
-  #page-account .asset-unit { font-size: 18px; }
-  #page-account .profit-label { font-size: 13px; }
-  #page-account .profit-value { font-size: 15px; }
+  #page-account .asset-title { font-size: 13px; }
+  #page-account .asset-simulated { font-size: 10px; }
+  #page-account .asset-value { font-size: 42px; }
+  #page-account .asset-unit { font-size: 16px; }
+  #page-account .profit-label { font-size: 12px; }
+  #page-account .profit-value { font-size: 14px; }
 
   #page-account .holding-card {
     border-radius: 14px;
-    padding: 18px;
+    padding: 15px;
   }
-  #page-account .holding-card .title { font-size: 15px; }
-  #page-account .holding-name { font-size: 14px; }
-  #page-account .holding-value { font-size: 15px; }
-  #page-account .price-value { font-size: 20px; }
-  #page-account .holding-change { font-size: 12px; }
-  #page-account .progress-bar { height: 5px; }
-  #page-account .mini-chart { min-height: 50px; }
+  #page-account .holding-card .title { font-size: 14px; }
+  #page-account .holding-name { font-size: 13px; }
+  #page-account .holding-value { font-size: 14px; }
+  #page-account .price-value { font-size: 18px; }
+  #page-account .holding-change { font-size: 11px; }
+  #page-account .progress-bar { height: 4px; }
+  #page-account .mini-chart { min-height: 40px; }
 
-  #page-account .vision-card {
-    border-radius: 14px;
-    padding: 18px;
-  }
-  #page-account .vision-title { font-size: 15px; }
-  #page-account .vision-text { font-size: 13px; }
-
-  #page-account .info-card {
-    border-radius: 14px;
-    padding: 15px 18px;
-  }
-  #page-account .info-item { padding: 8px 0; font-size: 12px; }
-
-  #page-account .quote {
+  #page-account .btn-back {
     grid-column: 1 / -1;
-    padding: 15px 20px;
-  }
-
-  /* 桌面端排行榜 */
-  #page-rank {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 15px;
-  }
-
-  #page-rank .rank-card {
-    border-radius: 14px;
-    padding: 18px;
-  }
-  #page-rank .title { font-size: 16px; }
-  #page-rank .rank-item { padding: 12px; margin-bottom: 10px; }
-  #page-rank .rank-name { font-size: 15px; }
-  #page-rank .rank-amount { font-size: 16px; }
-  #page-rank .rank-hint { font-size: 12px; }
-
-  #page-rank .quote {
-    padding: 15px 20px;
+    padding: 8px;
+    font-size: 12px;
   }
 
   /* 桌面端我的页面 */
   #page-mine {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
     gap: 15px;
     align-items: start;
   }
 
   #page-mine .user-card {
     border-radius: 14px;
-    padding: 20px;
+    padding: 18px;
   }
-  #page-mine .avatar { width: 60px; height: 60px; font-size: 30px; }
-  #page-mine .user-name { font-size: 18px; }
-  #page-mine .stat-box .stat-value { font-size: 32px; }
-  #page-mine .stat-box .stat-label { font-size: 12px; }
+  #page-mine .avatar { width: 50px; height: 50px; font-size: 26px; }
+  #page-mine .user-name { font-size: 16px; }
+  #page-mine .stat-box .stat-value { font-size: 28px; }
+  #page-mine .stat-box .stat-label { font-size: 11px; }
 
   #page-mine .stats-card {
     border-radius: 14px;
+    padding: 12px;
+  }
+  #page-mine .stats-card .title { font-size: 14px; }
+  #page-mine .stats-item { padding: 8px 0; font-size: 13px; }
+  #page-mine .stats-icon { font-size: 16px; }
+
+  #page-mine .mine-rules {
+    grid-column: 1 / -1;
+    border-radius: 14px;
     padding: 15px;
   }
-  #page-mine .stats-card .title { font-size: 15px; }
-  #page-mine .stats-item { padding: 10px 0; font-size: 14px; }
-  #page-mine .stats-icon { font-size: 18px; }
+  #page-mine .rules-title { font-size: 14px; }
+  #page-mine .rule-row { font-size: 12px; }
 
   #page-mine .actions-card {
     grid-column: 1 / -1;
     border-radius: 14px;
   }
-  #page-mine .action-item { padding: 14px 18px; }
-  #page-mine .action-icon { font-size: 18px; }
-  #page-mine .action-text { font-size: 14px; }
+  #page-mine .action-item { padding: 12px 15px; }
+  #page-mine .action-icon { font-size: 16px; }
+  #page-mine .action-text { font-size: 13px; }
 
-  #page-mine .quote {
+  #page-mine .btn-back {
     grid-column: 1 / -1;
-    padding: 15px 20px;
+    padding: 8px;
+    font-size: 12px;
   }
 
   /* 桌面端底部导航居中 */

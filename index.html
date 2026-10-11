@@ -95,6 +95,12 @@
           </div>
         </div>
 
+        <!-- 产品愿景 -->
+        <div class="home-vision">
+          <div class="vision-icon">💡</div>
+          <div class="vision-text">用时间换取技能 · 用坚持积累财富<br>让每一分努力都不被辜负</div>
+        </div>
+
         <div class="quote" id="home-quote">
           <div class="quote-text"></div>
           <div class="quote-author"></div>
@@ -118,7 +124,7 @@
           </div>
         </div>
 
-        <div class="card clockin-form">
+        <div class="clockin-form">
           <div class="form-item" id="duration-section">
             <div class="form-label">练习时长</div>
             <div class="duration-picker">
@@ -146,36 +152,7 @@
           <button class="btn" id="submit-btn" onclick="submitClockIn()">🎉 打卡</button>
         </div>
 
-        <div class="card rule-card">
-          <div class="rule-title">📋 积分规则</div>
-
-          <div class="rule-section">
-            <div class="rule-section-title">基础奖励</div>
-            <div class="rule-item">🎹 练琴：10元 + 时长奖励</div>
-            <div class="rule-item">🏃 运动：10元</div>
-            <div class="rule-item">📖 阅读：10元</div>
-          </div>
-
-          <div class="rule-section">
-            <div class="rule-section-title">练琴时长奖励</div>
-            <div class="rule-item">🎯 练30分钟 = 10元</div>
-            <div class="rule-item">👍 每多练30分钟，再加5元</div>
-            <div class="rule-item">💪 练120分钟 = 25元</div>
-          </div>
-
-          <div class="rule-section">
-            <div class="rule-section-title">连续打卡奖励</div>
-            <div class="rule-milestones">
-              <div class="rule-milestone">🏆3天 +3元</div>
-              <div class="rule-milestone">🏆7天 +5元</div>
-              <div class="rule-milestone">🏆14天 +8元</div>
-              <div class="rule-milestone">🏆21天 +10元</div>
-              <div class="rule-milestone">🏆30天 +15元</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card clockin-record">
+        <div class="clockin-record">
           <div class="title">今日打卡</div>
           <div class="record-items">
             <div class="record-item" id="record-practice">
@@ -193,17 +170,12 @@
           </div>
         </div>
 
-        <div class="quote" id="clockin-quote">
-          <div class="quote-text"></div>
-          <div class="quote-author"></div>
-        </div>
-
         <button class="btn-back" onclick="showPage('home')">← 返回首页</button>
       </div>
 
       <!-- 账户页 -->
       <div id="page-account" class="page">
-        <div class="card asset-card">
+        <div class="asset-card">
           <div class="asset-header">
             <span class="asset-title">我的定投账户</span>
             <span class="asset-simulated" id="asset-simulated" style="display:none">（模拟数据）</span>
@@ -218,7 +190,7 @@
           </div>
         </div>
 
-        <div class="card holding-card">
+        <div class="holding-card">
           <div class="title">持仓分布</div>
 
           <div class="holding-item">
@@ -252,26 +224,6 @@
           </div>
         </div>
 
-        <div class="card vision-card">
-          <div class="vision-title">💡 产品愿景</div>
-          <div class="vision-text">
-            用时间换取技能、能力和财富认知<br><br>
-            让每一分努力都不被辜负<br>
-            时间是最好的投资
-          </div>
-        </div>
-
-        <div class="card info-card">
-          <div class="info-item">📌 资金自动投入，无需手动操作</div>
-          <div class="info-item">📌 60% 纳斯达克 + 40% 沪深300</div>
-          <div class="info-item">📌 长期持有，时间是最好的朋友</div>
-        </div>
-
-        <div class="quote" id="account-quote">
-          <div class="quote-text"></div>
-          <div class="quote-author"></div>
-        </div>
-
         <button class="btn-back" onclick="showPage('home')">← 返回首页</button>
       </div>
 
@@ -298,7 +250,7 @@
 
       <!-- 我的 -->
       <div id="page-mine" class="page">
-        <div class="card user-card">
+        <div class="user-card">
           <div class="user-header" onclick="showAccountSelectModal()">
             <div class="avatar large">🎹</div>
             <div class="user-name" id="mine-user-name">新用户</div>
@@ -316,7 +268,7 @@
           </div>
         </div>
 
-        <div class="card stats-card">
+        <div class="stats-card">
           <div class="title">打卡统计</div>
           <div class="stats-list">
             <div class="stats-item">
@@ -337,7 +289,18 @@
           </div>
         </div>
 
-        <div class="card actions-card">
+        <div class="mine-rules">
+          <div class="rules-title">📋 积分规则</div>
+          <div class="rules-content">
+            <div class="rule-row"><span>🎹 练琴</span><span>10元 + 时长奖励</span></div>
+            <div class="rule-row"><span>🏃 运动</span><span>10元</span></div>
+            <div class="rule-row"><span>📖 阅读</span><span>10元</span></div>
+            <div class="rule-row"><span>⏰ 时长</span><span>每30分钟 +5元</span></div>
+            <div class="rule-row"><span>🏆 连续</span><span>3天+3, 7天+5, 30天+15</span></div>
+          </div>
+        </div>
+
+        <div class="actions-card">
           <div class="action-item" onclick="showAccountSelectModal()">
             <span class="action-icon">🔄</span>
             <span class="action-text">切换账号</span>
@@ -358,11 +321,6 @@
             <span class="action-text">添加孩子</span>
             <span class="action-arrow">→</span>
           </div>
-        </div>
-
-        <div class="quote" id="mine-quote">
-          <div class="quote-text"></div>
-          <div class="quote-author"></div>
         </div>
 
         <button class="btn-back" onclick="showPage('home')">← 返回首页</button>
