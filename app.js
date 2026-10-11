@@ -49,8 +49,15 @@ let marketDataCache = {
   csi300: null,
   nasdaqHistory: null,
   csi300History: null,
-  lastUpdate: null
+  lastUpdate: null,
+  isSimulated: false  // 标记是否使用模拟数据
 };
+
+// 迷你图渐变ID计数器（解决并发生成ID冲突问题）
+let miniChartIdCounter = 0;
+function getMiniChartId() {
+  return 'grad_' + (++miniChartIdCounter) + '_' + Date.now();
+}
 
 // 从 Yahoo Finance 获取纳斯达克数据
 async function fetchNasdaqData() {
@@ -84,6 +91,7 @@ async function fetchNasdaqData() {
     console.log('获取纳斯达克数据失败，使用备用数据');
   }
   // 备用：返回模拟数据
+  marketDataCache.isSimulated = true;
   const history = getNasdaqHistory();
   return {
     price: parseFloat(history[history.length - 1]),
@@ -139,7 +147,7 @@ function generateMiniChartSVG(history, isUp) {
 
   // 中国市场：涨=红色，跌=绿色
   const color = isUp ? '#FF5252' : '#4CAF50';
-  const gradientId = `grad_${Date.now()}`;
+  const gradientId = getMiniChartId();
 
   return `
     <svg width="100%" height="${height}" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none">
@@ -155,25 +163,31 @@ function generateMiniChartSVG(history, isUp) {
   `;
 }
 
-// 获取随机名言
+// HTML转义，防止XSS注入
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// 转义HTML属性值（双重转义单引号）
+function escapeAttr(text) {
+  return escapeHtml(text).replace(/'/g, '&#39;');
+}
 function getRandomQuote() {
   const index = Math.floor(Math.random() * quotes.length);
   return quotes[index];
 }
 
-// 计算积分
+// 计算积分（与UI规则一致）
 function getScore(type, duration) {
-  let score = 10; // 基础分
-
-  if (type === 'practice') {
-    if (duration >= 120) score += 25;
-    else if (duration >= 90) score += 15;
-    else if (duration >= 60) score += 10;
-    else if (duration >= 30) score += 5;
-    else score += 2;
+  // UI规则：练30分钟 = 10元，每多练30分钟再+5元
+  // 30min=10, 60min=15, 90min=20, 120min=25
+  if (type !== 'practice') {
+    return 10; // 运动和阅读固定10元
   }
-
-  return score;
+  // 练琴：每30分钟5元，不满30分钟按比例
+  return 10 + Math.floor(duration / 30) * 5;
 }
 
 // 连续打卡里程碑奖励
@@ -317,10 +331,14 @@ function switchUser(userId) {
   setCurrentUserId(userId);
 }
 
-// 获取今日打卡数据
+// 获取今日打卡数据（按用户维度存储，解决跨账号泄漏问题）
 function loadTodayData() {
+  const userId = getCurrentUserId();
+  if (!userId) return { date: getToday(), practice: false, sport: false, read: false };
+
   const today = getToday();
-  const todayData = localStorage.getItem('dingtou_today');
+  const storageKey = `dingtou_today_${userId}`;
+  const todayData = localStorage.getItem(storageKey);
   if (todayData) {
     const data = JSON.parse(todayData);
     if (data.date === today) {
@@ -329,8 +347,16 @@ function loadTodayData() {
   }
   // 新的一天，重置数据
   const newData = { date: today, practice: false, sport: false, read: false };
-  localStorage.setItem('dingtou_today', JSON.stringify(newData));
+  localStorage.setItem(storageKey, JSON.stringify(newData));
   return newData;
+}
+
+// 保存今日打卡数据（按用户维度）
+function saveTodayData(todayData) {
+  const userId = getCurrentUserId();
+  if (!userId) return;
+  const storageKey = `dingtou_today_${userId}`;
+  localStorage.setItem(storageKey, JSON.stringify(todayData));
 }
 
 // 获取排行榜数据 - 只显示真实参与的用户
@@ -439,6 +465,14 @@ function updateEstimatedScore() {
 
 // 提交打卡
 function submitClockIn() {
+  // 检查登录状态
+  const userId = getCurrentUserId();
+  if (!userId) {
+    alert('请先选择账号');
+    showAccountSelectModal();
+    return;
+  }
+
   const todayData = loadTodayData();
   const userData = loadUserData() || {
     nickname: '新用户',
@@ -448,6 +482,13 @@ function submitClockIn() {
     totalSport: 0,
     totalRead: 0
   };
+
+  // 缺陷 #1 修复：检查是否已打卡
+  if (todayData[currentTab]) {
+    const typeNames = { practice: '练琴', sport: '运动', read: '阅读' };
+    alert(`今天已打卡：${typeNames[currentTab]}`);
+    return;
+  }
 
   const duration = parseInt(document.getElementById('duration').value) || 60;
   const content = document.getElementById('content-input').value;
@@ -498,7 +539,7 @@ function submitClockIn() {
 
   // 保存数据 - 使用新的多用户存储方式
   saveUserData(userData);
-  localStorage.setItem('dingtou_today', JSON.stringify(todayData));
+  saveTodayData(todayData); // 缺陷 #2 修复：按用户保存
 
   // 显示提示
   alert(message);
@@ -520,6 +561,11 @@ function updateHomePage() {
     document.getElementById('total-amount').textContent = userData.totalAmount;
     document.getElementById('continuous-days').textContent = userData.continuousDays;
     document.getElementById('account-preview').textContent = `${userData.totalAmount} 元`;
+    // 缺陷 #9 修复：未登录时清空显示
+  } else {
+    document.getElementById('total-amount').textContent = '--';
+    document.getElementById('continuous-days').textContent = '--';
+    document.getElementById('account-preview').textContent = '请选择账号';
   }
 
   // 更新打卡状态
@@ -532,23 +578,29 @@ function switchTabAndGo(tab) {
   showPage('clockin');
 }
 
-// 更新打卡状态显示
+// 更新打卡状态显示（首页 + 打卡页）
 function updateCheckStatus(todayData) {
   const statusMap = {
-    practice: { check: 'check-practice', status: 'practice-status' },
-    sport: { check: 'check-sport', status: 'sport-status' },
-    read: { check: 'check-read', status: 'read-status' }
+    practice: { check: 'check-practice', status: 'practice-status', recordStatus: 'record-practice-status' },
+    sport: { check: 'check-sport', status: 'sport-status', recordStatus: 'record-sport-status' },
+    read: { check: 'check-read', status: 'read-status', recordStatus: 'record-read-status' }
   };
 
   for (const [type, ids] of Object.entries(statusMap)) {
     const checkEl = document.getElementById(ids.check);
     const statusEl = document.getElementById(ids.status);
+    const recordStatusEl = document.getElementById(ids.recordStatus);
 
     if (checkEl) {
       checkEl.classList.toggle('done', todayData[type]);
     }
     if (statusEl) {
       statusEl.textContent = todayData[type] ? '✓ 已完成' : '待打卡';
+    }
+    // 缺陷 #3 修复：打卡页的今日记录条也要更新
+    if (recordStatusEl) {
+      recordStatusEl.textContent = todayData[type] ? '✓ 已打卡' : '○ 未打卡';
+      recordStatusEl.style.color = todayData[type] ? '#4CAF50' : '#999';
     }
   }
 }
@@ -610,6 +662,12 @@ async function updateAccountPage() {
   // 更新投资比例显示
   document.getElementById('nasdaq-percent').textContent = (INVEST_CONFIG.nasdaq * 100) + '%';
   document.getElementById('hs300-percent').textContent = (INVEST_CONFIG.csi300 * 100) + '%';
+
+  // 显示模拟数据提示
+  const simulatedEl = document.getElementById('asset-simulated');
+  if (simulatedEl) {
+    simulatedEl.style.display = marketDataCache.isSimulated ? 'inline' : 'none';
+  }
 }
 
 // 排行榜分页
@@ -654,7 +712,7 @@ function updateRankPage() {
             ${actualIndex === 0 ? '🥇' : actualIndex === 1 ? '🥈' : actualIndex === 2 ? '🥉' : actualIndex + 1}
           </div>
           <div class="rank-info">
-            <div class="rank-name">${user.nickname}</div>
+            <div class="rank-name">${escapeHtml(user.nickname)}</div>
             <div class="rank-days">连续 ${user.continuousDays || 0} 天 | ${(user.totalPractice || 0) + (user.totalSport || 0) + (user.totalRead || 0)} 次打卡</div>
           </div>
         </div>
@@ -853,7 +911,7 @@ function showAccountSelectModal() {
   container.innerHTML = userList.map(user => `
     <div class="account-option ${user.id === currentUserId ? 'active' : ''}" onclick="selectAccount('${user.id}')">
       <div class="account-avatar">${user.isParent ? '👨‍👩‍👧' : '🎹'}</div>
-      <div class="account-name">${user.nickname}</div>
+      <div class="account-name">${escapeHtml(user.nickname)}</div>
       ${user.id === currentUserId ? '<span class="account-check">✓</span>' : ''}
     </div>
   `).join('');
@@ -913,13 +971,13 @@ function showParentPanel() {
       <div class="parent-user-info">
         <div class="parent-user-avatar">🎹</div>
         <div class="parent-user-details">
-          <div class="parent-user-name">${user.nickname}</div>
+          <div class="parent-user-name">${escapeHtml(user.nickname)}</div>
           <div class="parent-user-stats">
             ${user.totalAmount || 0}元 | 连续${user.continuousDays || 0}天
           </div>
         </div>
       </div>
-      <button class="btn-delete" onclick="confirmDeleteUser('${user.id}', '${user.nickname}')">删除</button>
+      <button class="btn-delete" onclick="confirmDeleteUser('${user.id}', '${escapeAttr(user.nickname)}')">删除</button>
     </div>
   `).join('');
 
