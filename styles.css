@@ -231,49 +231,60 @@ body {
 .quote-author { font-size: 9px; color: #999; margin-top: 2px; }
 
 /* 我的页面积分规则 */
-.mine-rules {
-  flex-shrink: 0;
+/* ==================== 积分规则页 ==================== */
+.rules-page-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   background: #FFF;
-  border-radius: 10px;
-  padding: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
 }
-.rules-title {
-  font-size: 13px;
-  font-weight: 600;
+.rules-page-title {
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 16px;
   color: #333;
+}
+.rules-page-content {
+  flex: 1;
+  overflow-y: auto;
+}
+.rules-page-section {
+  margin-bottom: 16px;
+}
+.rules-page-section:last-child {
+  margin-bottom: 0;
+}
+.rules-page-section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #FF9800;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #FFE0B2;
+}
+.rules-page-item {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
-  cursor: pointer;
-  user-select: none;
+  padding: 8px 0;
+  font-size: 13px;
 }
-.rules-arrow {
-  font-size: 10px;
-  transition: transform 0.3s ease;
-  color: #999;
+.rules-page-item .item-icon {
+  width: 28px;
+  font-size: 16px;
 }
-.rules-title.active .rules-arrow {
-  transform: rotate(180deg);
-}
-.rules-title.active {
-  margin-bottom: 8px;
-}
-.rules-content {
-  display: none;
-  flex-direction: column;
-  gap: 6px;
-}
-.rules-content.show {
-  display: flex;
-}
-.rule-row {
-  display: flex;
-  justify-content: space-between;
-  font-size: 11px;
+.rules-page-item .item-name {
+  flex: 1;
   color: #666;
-  padding: 4px 0;
+}
+.rules-page-item .item-value {
+  font-weight: 600;
+  color: #333;
+}
   border-bottom: 1px solid #F5F5F5;
 }
 .rule-row:last-child { border-bottom: none; }
@@ -901,14 +912,6 @@ input[type="range"]::-webkit-slider-thumb {
   #page-mine .stats-item { padding: 8px 0; font-size: 13px; }
   #page-mine .stats-icon { font-size: 16px; }
 
-  #page-mine .mine-rules {
-    grid-column: 1 / -1;
-    border-radius: 14px;
-    padding: 15px;
-  }
-  #page-mine .rules-title { font-size: 14px; }
-  #page-mine .rule-row { font-size: 12px; }
-
   #page-mine .actions-card {
     grid-column: 1 / -1;
     border-radius: 14px;
@@ -939,6 +942,21 @@ input[type="range"]::-webkit-slider-thumb {
   .modal-content.modal-large { width: 420px; }
   .modal-title { font-size: 18px; }
   .modal-content .input { padding: 12px; font-size: 14px; }
+
+  /* 桌面端积分规则页 */
+  #page-rules {
+    align-items: center;
+    justify-content: center;
+  }
+  #page-rules .rules-page-card {
+    max-width: 500px;
+    width: 100%;
+    max-height: 80vh;
+  }
+  #page-rules .rules-page-title { font-size: 22px; }
+  #page-rules .rules-page-section-title { font-size: 16px; }
+  #page-rules .rules-page-item { font-size: 14px; padding: 10px 0; }
+  #page-rules .btn-back { margin-top: 15px; }
 }
 
 /* ==================== 超小屏手机 ==================== */

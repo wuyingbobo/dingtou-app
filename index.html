@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>定投富足悠扬人生</title>
-  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
   <div id="app">
@@ -289,18 +289,12 @@
           </div>
         </div>
 
-        <div class="mine-rules">
-          <div class="rules-title" onclick="toggleRules(this)">📋 积分规则 <span class="rules-arrow">▼</span></div>
-          <div class="rules-content" style="display: none;">
-            <div class="rule-row"><span>🎹 练琴</span><span>10元 + 时长奖励</span></div>
-            <div class="rule-row"><span>🏃 运动</span><span>10元</span></div>
-            <div class="rule-row"><span>📖 阅读</span><span>10元</span></div>
-            <div class="rule-row"><span>⏰ 时长</span><span>每30分钟 +5元</span></div>
-            <div class="rule-row"><span>🏆 连续</span><span>3天+3, 7天+5, 30天+15</span></div>
-          </div>
-        </div>
-
         <div class="actions-card">
+          <div class="action-item" onclick="showPage('rules')">
+            <span class="action-icon">📋</span>
+            <span class="action-text">积分规则</span>
+            <span class="action-arrow">→</span>
+          </div>
           <div class="action-item" onclick="showAccountSelectModal()">
             <span class="action-icon">🔄</span>
             <span class="action-text">切换账号</span>
@@ -324,6 +318,75 @@
         </div>
 
         <button class="btn-back" onclick="showPage('home')">← 返回首页</button>
+      </div>
+
+      <!-- 积分规则页 -->
+      <div id="page-rules" class="page">
+        <div class="rules-page-card">
+          <div class="rules-page-title">📋 积分规则</div>
+          <div class="rules-page-content">
+            <div class="rules-page-section">
+              <div class="rules-page-section-title">🎯 打卡积分</div>
+              <div class="rules-page-item">
+                <span class="item-icon">🎹</span>
+                <span class="item-name">练琴</span>
+                <span class="item-value">10元 + 时长奖励</span>
+              </div>
+              <div class="rules-page-item">
+                <span class="item-icon">🏃</span>
+                <span class="item-name">运动</span>
+                <span class="item-value">10元</span>
+              </div>
+              <div class="rules-page-item">
+                <span class="item-icon">📖</span>
+                <span class="item-name">阅读</span>
+                <span class="item-value">10元</span>
+              </div>
+            </div>
+            <div class="rules-page-section">
+              <div class="rules-page-section-title">⏰ 时长奖励（仅练琴）</div>
+              <div class="rules-page-item">
+                <span class="item-icon">🎯</span>
+                <span class="item-name">练30分钟</span>
+                <span class="item-value">+10元</span>
+              </div>
+              <div class="rules-page-item">
+                <span class="item-icon">👍</span>
+                <span class="item-name">再练30分钟</span>
+                <span class="item-value">+5元</span>
+              </div>
+              <div class="rules-page-item">
+                <span class="item-icon">💪</span>
+                <span class="item-name">练90分钟</span>
+                <span class="item-value">+5元（共20元）</span>
+              </div>
+              <div class="rules-page-item">
+                <span class="item-icon">🌟</span>
+                <span class="item-name">练120分钟</span>
+                <span class="item-value">+5元（共25元）</span>
+              </div>
+            </div>
+            <div class="rules-page-section">
+              <div class="rules-page-section-title">🏆 连续打卡奖励</div>
+              <div class="rules-page-item">
+                <span class="item-icon">🔥</span>
+                <span class="item-name">连续3天</span>
+                <span class="item-value">+3元</span>
+              </div>
+              <div class="rules-page-item">
+                <span class="item-icon">⭐</span>
+                <span class="item-name">连续7天</span>
+                <span class="item-value">+5元</span>
+              </div>
+              <div class="rules-page-item">
+                <span class="item-icon">💎</span>
+                <span class="item-name">连续30天</span>
+                <span class="item-value">+15元</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="btn-back" onclick="showPage('mine')">← 返回我的</button>
       </div>
 
     </div>
@@ -414,6 +477,6 @@
     </div>
   </div>
 
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>
