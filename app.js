@@ -973,6 +973,13 @@ function editNickname() {
 
 // 初始化
 document.addEventListener('DOMContentLoaded', function() {
+  // 注册 Service Worker（支持 PWA "添加到主屏幕"）
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js?v=1')
+      .then((reg) => console.log('Service Worker 注册成功'))
+      .catch((err) => console.log('Service Worker 注册失败:', err));
+  }
+
   const userList = loadUserList();
 
   if (!userList || userList.length === 0) {
