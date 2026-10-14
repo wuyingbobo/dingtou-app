@@ -972,12 +972,40 @@ function editNickname() {
 }
 
 // 初始化
-document.addEventListener('DOMContentLoaded', function() {
-  // 注册 Service Worker（支持 PWA "添加到主屏幕"）
+document.addEventListener('DOMContentLoaded', async function() {
+  // 清除旧的 Service Worker 缓存（如果有）
+  if ('caches' in window) {
+    try {
+      const cacheNames = await caches.keys();
+      await Promise.all(
+        cacheNames
+          .filter(name => name.startsWith('dingtou-app-v') && name !== 'dingtou-app-v2')
+          .map(name => caches.delete(name))
+      );
+    } catch (e) {
+      console.log('清理旧缓存失败', e);
+    }
+  }
+
+  // 注册新的 Service Worker
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js?v=1')
-      .then((reg) => console.log('Service Worker 注册成功'))
-      .catch((err) => console.log('Service Worker 注册失败:', err));
+    try {
+      const reg = await navigator.serviceWorker.register('sw.js?v=2');
+      console.log('Service Worker 注册成功');
+
+      // 监听更新
+      reg.addEventListener('updatefound', () => {
+        const newWorker = reg.installing;
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            // 有新版本可用，提示用户刷新
+            console.log('有新版本可用，请刷新页面');
+          }
+        });
+      });
+    } catch (err) {
+      console.log('Service Worker 注册失败:', err);
+    }
   }
 
   const userList = loadUserList();

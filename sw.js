@@ -1,10 +1,11 @@
-const CACHE_NAME = 'dingtou-app-v1';
+const CACHE_NAME = 'dingtou-app-v2'; // 版本号更新，强制清除旧缓存
+
 const urlsToCache = [
-  '/dingtou-app/',
-  '/dingtou-app/index.html',
-  '/dingtou-app/styles.css',
-  '/dingtou-app/app.js',
-  '/dingtou-app/manifest.json'
+  './',
+  './index.html',
+  './styles.css',
+  './app.js',
+  './manifest.json'
 ];
 
 // 安装 Service Worker
@@ -29,29 +30,29 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// 拦截请求，优先缓存
+// 拦截请求，优先网络，网络失败再用缓存
 self.addEventListener('fetch', (event) => {
+  // 跳过非 GET 请求
+  if (event.request.method !== 'GET') {
+    return;
+  }
+
   event.respondWith(
-    caches.match(event.request)
+    fetch(event.request)
       .then((response) => {
-        // 缓存命中则返回缓存，否则请求网络
-        if (response) {
-          return response;
+        // 如果是成功的响应，克隆并缓存
+        if (response && response.status === 200) {
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME)
+            .then((cache) => {
+              cache.put(event.request, responseToCache);
+            });
         }
-        return fetch(event.request)
-          .then((response) => {
-            // 不缓存非成功响应
-            if (!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
-            // 克隆响应并缓存
-            const responseToCache = response.clone();
-            caches.open(CACHE_NAME)
-              .then((cache) => {
-                cache.put(event.request, responseToCache);
-              });
-            return response;
-          });
+        return response;
+      })
+      .catch(() => {
+        // 网络失败，使用缓存
+        return caches.match(event.request);
       })
   );
 });
